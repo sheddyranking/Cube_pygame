@@ -26,6 +26,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGTH))
 #game loop
 
 game_over = False
+score  = 0
 
 clock = pygame.time.Clock()
 
@@ -43,12 +44,14 @@ def draw_enemies(enemy_list):
         pygame.draw.rect(screen, BLUE, (enemy_pos[0], enemy_pos[1], enemy_size, enemy_size))
 
 #updating enemies position function
-def updating_enemy_position(enemy_list):
+def updating_enemy_position(enemy_list, score):
     for idx, enemy_pos in enumerate(enemy_list):
         if enemy_pos[1] >= 0 and enemy_pos[1] <= HEIGTH:
              enemy_pos[1] += SPEED 
         else:
-            enemy_list.pop(idx)
+            enemy_list.pop(idx) # pop off any rect that leavs the screen
+            score += 1 # updating the scores
+    return score
 
 #collision check
 def collision_check(enemy_list, player_pos):
@@ -101,7 +104,8 @@ while not game_over:
 
     #calling the functions
     drop_enemies(enemy_list)
-    updating_enemy_position(enemy_list)
+    score = updating_enemy_position(enemy_list, score) #do the update and also return score value 
+    print(score)
 
     if collision_check(enemy_list, player_pos):
         game_over =True
