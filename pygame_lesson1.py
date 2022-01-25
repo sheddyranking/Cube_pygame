@@ -1,3 +1,4 @@
+import re
 import pygame #the pygame.org/doc/ for the documentary 
 import random
 import sys
@@ -47,6 +48,14 @@ def updating_enemy_position(enemy_list):
              enemy_pos[1] += SPEED 
         else:
             enemy_list.pop(idx)
+
+#collision check
+def collision_check(enemy_list, player_pos):
+    for enemy_pos in enemy_list:
+        if detect_collision(enemy_pos, player_pos):
+            return True
+    return False
+
 #detect collision 
 def detect_collision (player_pos, enemy_pos):
     p_x = player_pos[0]
@@ -77,8 +86,9 @@ while not game_over:
                 x += player_size
             player_pos = [x,y] #updating the new position
 
-    screen.fill(BACKGROUND_COLOR) #its fills the sides black    
-    
+    screen.fill(BACKGROUND_COLOR) #its fills the sides black   
+
+    #called the function
     if detect_collision(player_pos, enemy_pos):
         game_over = True
         break
@@ -87,7 +97,14 @@ while not game_over:
     pygame.draw.rect(screen, RED, (player_pos[0], player_pos[1], player_size, player_size))
 
     clock.tick(30)
+
+    #calling the functions
     drop_enemies(enemy_list)
+    updating_enemy_position(enemy_list)
+
+    if collision_check(enemy_list, player_pos):
+        game_over =True
+        break
     draw_enemies(enemy_list)
 
     pygame.display.update() #we need to unpdate the screen always 
