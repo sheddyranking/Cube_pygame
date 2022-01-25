@@ -34,6 +34,19 @@ clock = pygame.time.Clock()
 
 myFont = pygame.font.SysFont("monospace", 35)
 
+#Dificaulty in levels
+def set_level(score, SPEED):
+    if score < 20:
+        SPEED = 5
+    elif score < 40:
+        SPEED = 8
+    elif score < 60:
+        SPEED = 12
+    else:
+        SPEED = 15
+    return SPEED
+
+
 #drop enemies function
 def drop_enemies(enemy_list):
     delay = random.random() #adding a psuedo delay
@@ -108,7 +121,8 @@ while not game_over:
 
     #calling the functions
     drop_enemies(enemy_list)
-    score = updating_enemy_position(enemy_list, score) #do the update and also return score value   
+    score = updating_enemy_position(enemy_list, score) #do the update and also return score value
+    SPEED = set_level(score, SPEED)   
     
     #printing the score
     text = "Score: " + str(score)
