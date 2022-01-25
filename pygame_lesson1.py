@@ -1,3 +1,4 @@
+from cProfile import label
 import re
 import pygame #the pygame.org/doc/ for the documentary 
 import random
@@ -11,6 +12,7 @@ WIDTH = 800
 HEIGTH = 600
 RED = (250, 0, 0) #pygame takes only Rgb format
 BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
 player_size = 50
 player_pos = [WIDTH/2, HEIGTH-2*player_size]
 BACKGROUND_COLOR = (0,0,0)
@@ -29,6 +31,8 @@ game_over = False
 score  = 0
 
 clock = pygame.time.Clock()
+
+myFont = pygame.font.SysFont("monospace", 35)
 
 #drop enemies function
 def drop_enemies(enemy_list):
@@ -104,8 +108,12 @@ while not game_over:
 
     #calling the functions
     drop_enemies(enemy_list)
-    score = updating_enemy_position(enemy_list, score) #do the update and also return score value 
-    print(score)
+    score = updating_enemy_position(enemy_list, score) #do the update and also return score value   
+    
+    #printing the score
+    text = "Score: " + str(score)
+    label = myFont.render(text, 1, YELLOW)
+    screen.blit(label, (WIDTH-200, HEIGTH-40))
 
     if collision_check(enemy_list, player_pos):
         game_over =True
