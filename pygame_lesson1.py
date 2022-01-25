@@ -28,11 +28,13 @@ while not game_over:
             x = player_pos[0]
             y = player_pos[1]
 
-            if event.type == pygame.K_LEFT:
-                x -= 5
-            elif event.type == pygame.K_RIGHT:
-                x += 5
-            player_pos = [x, y] #updating the new position
+            if event.key == pygame.K_LEFT:
+                x -= player_size
+            elif event.key == pygame.K_RIGHT:
+                x += player_size
+            player_pos = [x,y] #updating the new position
+
+    screen.fill((0,0,0)) #its fills the sides black
 
     #drawing the rect shape.
     pygame.draw.rect(screen, RED, (player_pos[0], player_pos[1], player_size, player_size))
