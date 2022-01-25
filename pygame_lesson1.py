@@ -1,5 +1,7 @@
 import pygame #the pygame.org/doc/ for the documentary 
+import random
 import sys
+
 
 #initialling the pygame
 pygame.init()
@@ -7,8 +9,13 @@ pygame.init()
 WIDTH = 800
 HEIGTH = 600
 RED = (250, 0, 0) #pygame takes only Rgb format
-player_pos = [400, 300]
+BLUE = (0, 0, 255)
 player_size = 50
+player_pos = [WIDTH/2, HEIGTH-2*player_size]
+BACKGROUND_COLOR = (0,0,0)
+
+enemy_size = 50
+enemy_pos = [random.randint(0, WIDTH - enemy_size), 0]
 
 #creating the display UI
 screen = pygame.display.set_mode((WIDTH, HEIGTH))
@@ -34,9 +41,10 @@ while not game_over:
                 x += player_size
             player_pos = [x,y] #updating the new position
 
-    screen.fill((0,0,0)) #its fills the sides black
+    screen.fill(BACKGROUND_COLOR) #its fills the sides black
 
     #drawing the rect shape.
+    pygame.draw.rect(screen, BLUE, (enemy_pos[0], enemy_pos[1], enemy_size, enemy_size))
     pygame.draw.rect(screen, RED, (player_pos[0], player_pos[1], player_size, player_size))
 
     pygame.display.update() #we need to unpdate the screen always 
