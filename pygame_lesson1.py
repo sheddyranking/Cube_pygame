@@ -6,6 +6,9 @@ pygame.init()
 
 WIDTH = 800
 HEIGTH = 600
+RED = (250, 0, 0) #pygame takes only Rgb format
+player_pos = [400, 300]
+player_size = 50
 
 #creating the display UI
 screen = pygame.display.set_mode((WIDTH, HEIGTH))
@@ -19,6 +22,6 @@ while not game_over:
         if event.type == pygame.QUIT:
             sys.exit()
     #drawing the rect shape.
-    pygame.draw.rect(screen, (250,0,0), (400, 300, 50, 50))
+    pygame.draw.rect(screen, RED, (player_pos[0], player_pos[1], player_size, player_size))
 
     pygame.display.update() #we need to unpdate the screen always 
