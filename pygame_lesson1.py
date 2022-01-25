@@ -16,7 +16,7 @@ BACKGROUND_COLOR = (0,0,0)
 
 enemy_size = 50
 enemy_pos = [random.randint(0, WIDTH - enemy_size), 0]
-
+enemy_list = [enemy_pos]
 SPEED = 10
 
 #creating the display UI
@@ -28,6 +28,25 @@ game_over = False
 
 clock = pygame.time.Clock()
 
+#drop enemies function
+def drop_enemies(enemy_list):
+    if len(enemy_list) < 10:
+        x_pos = random.randint(0, WIDTH-enemy_size)
+        y_pos = 0
+        enemy_list.append([x_pos,y_pos])
+
+#draw enemies functions
+def draw_enemies(enemy_list):
+    for enemy_pos in enemy_list:
+        pygame.draw.rect(screen, BLUE, (enemy_pos[0], enemy_pos[1], enemy_size, enemy_size))
+
+#updating enemies position function
+def updating_enemy_position(enemy_list):
+    for idx, enemy_pos in enumerate(enemy_list):
+        if enemy_pos[1] >= 0 and enemy_pos[1] <= HEIGTH:
+             enemy_pos[1] += SPEED 
+        else:
+            enemy_list.pop(idx)
 #detect collision 
 def detect_collision (player_pos, enemy_pos):
     p_x = player_pos[0]
@@ -58,23 +77,17 @@ while not game_over:
                 x += player_size
             player_pos = [x,y] #updating the new position
 
-    screen.fill(BACKGROUND_COLOR) #its fills the sides black
-
-    #making the blue rect fall.(updating pos of enemy)
-    if enemy_pos[1] >= 0 and enemy_pos[1] <= HEIGTH:
-        enemy_pos[1] += SPEED 
-    else:
-        enemy_pos[0] = random.randint(0, WIDTH-enemy_size) #randomizing the falling pos.
-        enemy_pos[1] = 0
+    screen.fill(BACKGROUND_COLOR) #its fills the sides black    
     
     if detect_collision(player_pos, enemy_pos):
         game_over = True
         break
 
     #drawing the rect shape.
-    pygame.draw.rect(screen, BLUE, (enemy_pos[0], enemy_pos[1], enemy_size, enemy_size))
     pygame.draw.rect(screen, RED, (player_pos[0], player_pos[1], player_size, player_size))
 
     clock.tick(30)
+    drop_enemies(enemy_list)
+    draw_enemies(enemy_list)
 
     pygame.display.update() #we need to unpdate the screen always 
